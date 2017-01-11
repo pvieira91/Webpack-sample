@@ -1,0 +1,1 @@
+This is a simple webpack sample. In there you can find a quite simple but functional webpack configuration.
