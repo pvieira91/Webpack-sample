@@ -1,6 +1,7 @@
 import '../styles/calculator.css';
 
-// let imgSrc = require('../images/calculator.jpg');
+import imgSrc from '../images/calculator.jpg'; //big image should be loaded as ref;
+import avatarImgSrc from '../images/avatar.png'; //small image should be loaded as base64
 
 import Calculator from './calculator';
 
@@ -13,9 +14,13 @@ class CalculatorView {
 
 	render() {
 		const image = document.createElement('img');
-		 image.src = 'https://avatars0.githubusercontent.com/u/11532642?v=3&s=40';
+		image.src = imgSrc;
+
+		const avatar = document.createElement('img');
+		avatar.src = avatarImgSrc;
 
 		this.container.append(image);
+		this.container.append(avatar);
 	}
 
 }

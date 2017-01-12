@@ -60,10 +60,10 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "build/";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,15 +77,22 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-// let imgSrc = require('../images/calculator.jpg');
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //big image should be loaded as ref;
+//small image should be loaded as base64
 
 __webpack_require__(6);
 
-var _calculator = __webpack_require__(2);
+var _calculator = __webpack_require__(8);
 
 var _calculator2 = _interopRequireDefault(_calculator);
+
+var _avatar = __webpack_require__(7);
+
+var _avatar2 = _interopRequireDefault(_avatar);
+
+var _calculator3 = __webpack_require__(2);
+
+var _calculator4 = _interopRequireDefault(_calculator3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -102,9 +109,13 @@ var CalculatorView = function () {
 		key: 'render',
 		value: function render() {
 			var image = document.createElement('img');
-			image.src = 'https://avatars0.githubusercontent.com/u/11532642?v=3&s=40';
+			image.src = _calculator2.default;
+
+			var avatar = document.createElement('img');
+			avatar.src = _avatar2.default;
 
 			this.container.append(image);
+			this.container.append(avatar);
 		}
 	}]);
 
@@ -519,6 +530,18 @@ if(false) {
 
 /***/ },
 /* 7 */
+/***/ function(module, exports) {
+
+module.exports = "data:image/png;base64,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"
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "b2b614e4f057cdc923a9297004f2508d.jpg";
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
