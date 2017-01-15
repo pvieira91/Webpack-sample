@@ -34,7 +34,7 @@ const config = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin('style.css') //2 -Will Generate a new css file.
+		// new ExtractTextPlugin('style.css') //2 -Will Generate a new css file.
 	]
 }
 
