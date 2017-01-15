@@ -1,4 +1,5 @@
 import  CalculatorView from './calculator_view.js';
+import  './code_splitting.js';
 
 
 class Bootstrap {

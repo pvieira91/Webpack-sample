@@ -1,6 +1,34 @@
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	var parentJsonpFunction = window["webpackJsonp"];
+/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules, executeModules) {
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [], result;
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(installedChunks[chunkId])
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(chunkIds, moreModules, executeModules);
+/******/ 		while(resolves.length)
+/******/ 			resolves.shift()();
+
+/******/ 	};
+
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+
+/******/ 	// objects to store loaded and loading chunks
+/******/ 	var installedChunks = {
+/******/ 		1: 0
+/******/ 	};
 
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -26,6 +54,47 @@
 /******/ 		return module.exports;
 /******/ 	}
 
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = function requireEnsure(chunkId) {
+/******/ 		if(installedChunks[chunkId] === 0)
+/******/ 			return Promise.resolve();
+
+/******/ 		// an Promise means "currently loading".
+/******/ 		if(installedChunks[chunkId]) {
+/******/ 			return installedChunks[chunkId][2];
+/******/ 		}
+/******/ 		// start chunk loading
+/******/ 		var head = document.getElementsByTagName('head')[0];
+/******/ 		var script = document.createElement('script');
+/******/ 		script.type = 'text/javascript';
+/******/ 		script.charset = 'utf-8';
+/******/ 		script.async = true;
+/******/ 		script.timeout = 120000;
+
+/******/ 		if (__webpack_require__.nc) {
+/******/ 			script.setAttribute("nonce", __webpack_require__.nc);
+/******/ 		}
+/******/ 		script.src = __webpack_require__.p + "" + chunkId + ".bundle.js";
+/******/ 		var timeout = setTimeout(onScriptComplete, 120000);
+/******/ 		script.onerror = script.onload = onScriptComplete;
+/******/ 		function onScriptComplete() {
+/******/ 			// avoid mem leaks in IE.
+/******/ 			script.onerror = script.onload = null;
+/******/ 			clearTimeout(timeout);
+/******/ 			var chunk = installedChunks[chunkId];
+/******/ 			if(chunk !== 0) {
+/******/ 				if(chunk) chunk[1](new Error('Loading chunk ' + chunkId + ' failed.'));
+/******/ 				installedChunks[chunkId] = undefined;
+/******/ 			}
+/******/ 		};
+/******/ 		head.appendChild(script);
+
+/******/ 		var promise = new Promise(function(resolve, reject) {
+/******/ 			installedChunks[chunkId] = [resolve, reject];
+/******/ 		});
+/******/ 		return installedChunks[chunkId][2] = promise;
+/******/ 	};
 
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
@@ -62,8 +131,11 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "build/";
 
+/******/ 	// on error function for async loading
+/******/ 	__webpack_require__.oe = function(err) { console.error(err); throw err; };
+
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -80,17 +152,17 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); //big image should be loaded as ref;
 //small image should be loaded as base64
 
-__webpack_require__(6);
+__webpack_require__(8);
 
-var _calculator = __webpack_require__(8);
+var _calculator = __webpack_require__(2);
 
 var _calculator2 = _interopRequireDefault(_calculator);
 
-var _avatar = __webpack_require__(7);
+var _avatar = __webpack_require__(9);
 
 var _avatar2 = _interopRequireDefault(_avatar);
 
-var _calculator3 = __webpack_require__(2);
+var _calculator3 = __webpack_require__(4);
 
 var _calculator4 = _interopRequireDefault(_calculator3);
 
@@ -126,6 +198,34 @@ exports.default = CalculatorView;
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var button = document.createElement('button');
+button.innerText = 'Click me';
+
+var container = document.createElement('div');
+
+button.onclick = function () {
+	//load module
+	__webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 11)).then(function (module) {
+		new module.default(container).render();
+	});
+};
+
+document.querySelector('body').append(button);
+document.querySelector('body').append(container);
+
+/***/ },
+/* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "b2b614e4f057cdc923a9297004f2508d.jpg";
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -181,7 +281,7 @@ module.exports = function () {
 };
 
 /***/ },
-/* 2 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -189,7 +289,7 @@ module.exports = function () {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _sum = __webpack_require__(3);
+var _sum = __webpack_require__(5);
 
 var _sum2 = _interopRequireDefault(_sum);
 
@@ -221,7 +321,7 @@ var Calculator = function () {
 module.exports = Calculator;
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -237,10 +337,10 @@ var sum = function sum(a, b) {
 exports.default = sum;
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)();
+exports = module.exports = __webpack_require__(3)();
 // imports
 
 
@@ -251,7 +351,7 @@ exports.push([module.i, ".mainClass {\n\tbackground: blue;\n}", ""]);
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 /*
@@ -503,16 +603,16 @@ function updateLink(linkElement, obj) {
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(4);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(5)(content, {});
+var update = __webpack_require__(7)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -529,19 +629,13 @@ if(false) {
 }
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports) {
 
 module.exports = "data:image/png;base64,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"
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "b2b614e4f057cdc923a9297004f2508d.jpg";
-
-/***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -552,6 +646,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _calculator_view = __webpack_require__(0);
 
 var _calculator_view2 = _interopRequireDefault(_calculator_view);
+
+__webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
